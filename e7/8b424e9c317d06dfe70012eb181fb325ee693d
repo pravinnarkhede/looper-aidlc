@@ -1,0 +1,172 @@
+.aidlc-rule-details/common/ascii-diagram-standards.md
+  h_104014ee6b2ca4 1-116
+.aidlc-rule-details/common/content-validation.md
+  h_104014ee6b2ca4 1-78
+.aidlc-rule-details/common/depth-levels.md
+  h_104014ee6b2ca4 1-73
+.aidlc-rule-details/common/error-handling.md
+  h_104014ee6b2ca4 1-373
+.aidlc-rule-details/common/overconfidence-prevention.md
+  h_104014ee6b2ca4 1-100
+.aidlc-rule-details/common/process-overview.md
+  h_104014ee6b2ca4 1-141
+.aidlc-rule-details/common/question-format-guide.md
+  h_104014ee6b2ca4 1-369
+.aidlc-rule-details/common/session-continuity.md
+  h_104014ee6b2ca4 1-53
+.aidlc-rule-details/common/terminology.md
+  h_104014ee6b2ca4 1-187
+.aidlc-rule-details/common/welcome-message.md
+  h_104014ee6b2ca4 1-109
+.aidlc-rule-details/common/workflow-changes.md
+  h_104014ee6b2ca4 1-285
+.aidlc-rule-details/construction/build-and-test.md
+  h_104014ee6b2ca4 1-360
+.aidlc-rule-details/construction/code-generation.md
+  h_104014ee6b2ca4 1-217
+.aidlc-rule-details/construction/functional-design.md
+  h_104014ee6b2ca4 1-119
+.aidlc-rule-details/construction/infrastructure-design.md
+  h_104014ee6b2ca4 1-99
+.aidlc-rule-details/construction/nfr-design.md
+  h_104014ee6b2ca4 1-95
+.aidlc-rule-details/construction/nfr-requirements.md
+  h_104014ee6b2ca4 1-99
+.aidlc-rule-details/extensions/looper/looper.md
+  h_104014ee6b2ca4 1-124
+.aidlc-rule-details/extensions/looper/looper.opt-in.md
+  h_104014ee6b2ca4 1-28
+.aidlc-rule-details/extensions/resiliency/baseline/resiliency-baseline.md
+  h_104014ee6b2ca4 1-490
+.aidlc-rule-details/extensions/resiliency/baseline/resiliency-baseline.opt-in.md
+  h_104014ee6b2ca4 1-26
+.aidlc-rule-details/extensions/security/baseline/security-baseline.md
+  h_104014ee6b2ca4 1-307
+.aidlc-rule-details/extensions/security/baseline/security-baseline.opt-in.md
+  h_104014ee6b2ca4 1-20
+.aidlc-rule-details/extensions/testing/property-based/property-based-testing.md
+  h_104014ee6b2ca4 1-284
+.aidlc-rule-details/extensions/testing/property-based/property-based-testing.opt-in.md
+  h_104014ee6b2ca4 1-22
+.aidlc-rule-details/inception/application-design.md
+  h_104014ee6b2ca4 1-147
+.aidlc-rule-details/inception/requirements-analysis.md
+  h_104014ee6b2ca4 1-190
+.aidlc-rule-details/inception/reverse-engineering.md
+  h_104014ee6b2ca4 1-311
+.aidlc-rule-details/inception/units-generation.md
+  h_104014ee6b2ca4 1-188
+.aidlc-rule-details/inception/user-stories.md
+  h_104014ee6b2ca4 1-327
+.aidlc-rule-details/inception/workflow-planning.md
+  h_104014ee6b2ca4 1-469
+.aidlc-rule-details/inception/workspace-detection.md
+  h_104014ee6b2ca4 1-97
+.aidlc-rule-details/operations/operations.md
+  h_104014ee6b2ca4 1-19
+.claude/agents/build-checker.md
+  h_104014ee6b2ca4 1-295
+.claude/agents/codebase-analyzer.md
+  h_104014ee6b2ca4 1-144
+.claude/agents/codebase-locator.md
+  h_104014ee6b2ca4 1-122
+.claude/agents/codebase-pattern-finder.md
+  h_104014ee6b2ca4 1-227
+.claude/agents/jira-repit-updater.md
+  h_104014ee6b2ca4 1-405
+.claude/agents/thoughts-analyzer.md
+  h_104014ee6b2ca4 1-145
+.claude/agents/thoughts-locator.md
+  h_104014ee6b2ca4 1-127
+.claude/agents/web-search-researcher.md
+  h_104014ee6b2ca4 1-109
+.claude/commands/bridge-jira-sync.md
+  h_104014ee6b2ca4 1-208
+.claude/commands/generate-tasks.md
+  h_104014ee6b2ca4 1-70
+.claude/commands/looper-artifacts-setup.md
+  h_104014ee6b2ca4 1-386
+.claude/commands/looper-implement.md
+  h_104014ee6b2ca4 1-350
+.claude/commands/looper-initialize.md
+  h_104014ee6b2ca4 1-525
+.claude/commands/looper-plan.md
+  h_104014ee6b2ca4 1-833
+.claude/commands/looper-setup.md
+  h_104014ee6b2ca4 1-776
+.claude/hooks/looper-session-hook.ps1
+  h_104014ee6b2ca4 1-154
+.claude/looper-version
+  h_104014ee6b2ca4 1
+.claude/settings.json
+  h_104014ee6b2ca4 1-79
+CLAUDE.md
+  h_104014ee6b2ca4 1-535
+HOW-TO-USE.md
+  h_104014ee6b2ca4 1-378
+SETUP.md
+  h_104014ee6b2ca4 1-121
+aidlc-docs/reverse-engineering/api-documentation.md
+  h_104014ee6b2ca4 1-125
+aidlc-docs/reverse-engineering/architecture.md
+  h_104014ee6b2ca4 1-136
+aidlc-docs/reverse-engineering/business-overview.md
+  h_104014ee6b2ca4 1-159
+aidlc-docs/reverse-engineering/code-quality-assessment.md
+  h_104014ee6b2ca4 1-116
+aidlc-docs/reverse-engineering/code-structure.md
+  h_104014ee6b2ca4 1-243
+aidlc-docs/reverse-engineering/component-inventory.md
+  h_104014ee6b2ca4 1-120
+aidlc-docs/reverse-engineering/dependencies.md
+  h_104014ee6b2ca4 1-179
+aidlc-docs/reverse-engineering/reverse-engineering-timestamp.md
+  h_104014ee6b2ca4 1-39
+aidlc-docs/reverse-engineering/technology-stack.md
+  h_104014ee6b2ca4 1-127
+aidlc-docs/tax-inclusive-inventory/aidlc-state.md
+  h_104014ee6b2ca4 1-90
+aidlc-docs/tax-inclusive-inventory/audit.md
+  h_104014ee6b2ca4 1-73
+aidlc-docs/tax-inclusive-inventory/inception/application-design/application-design.md
+  h_104014ee6b2ca4 1-122
+aidlc-docs/tax-inclusive-inventory/inception/application-design/component-dependency.md
+  h_104014ee6b2ca4 1-113
+aidlc-docs/tax-inclusive-inventory/inception/application-design/component-methods.md
+  h_104014ee6b2ca4 1-143
+aidlc-docs/tax-inclusive-inventory/inception/application-design/components.md
+  h_104014ee6b2ca4 1-115
+aidlc-docs/tax-inclusive-inventory/inception/application-design/services.md
+  h_104014ee6b2ca4 1-85
+aidlc-docs/tax-inclusive-inventory/inception/plans/execution-plan.md
+  h_104014ee6b2ca4 1-166
+aidlc-docs/tax-inclusive-inventory/inception/requirements/requirement-verification-questions.md
+  h_104014ee6b2ca4 1-62
+aidlc-docs/tax-inclusive-inventory/inception/requirements/requirements.md
+  h_104014ee6b2ca4 1-213
+aidlc-docs/tax-inclusive-inventory/inception/units-generation/unit-of-work-dependency.md
+  h_104014ee6b2ca4 1-69
+aidlc-docs/tax-inclusive-inventory/inception/units-generation/unit-of-work-story-map.md
+  h_104014ee6b2ca4 1-60
+aidlc-docs/tax-inclusive-inventory/inception/units-generation/unit-of-work.md
+  h_104014ee6b2ca4 1-102
+bridge-docs/bridge-config.md
+  h_104014ee6b2ca4 1-114
+bridge-docs/bridge-overrides/looper-opt-in.md
+  h_104014ee6b2ca4 1-34
+bridge-docs/bridge-overrides/workspace-repos.md
+  h_104014ee6b2ca4 1-59
+looper-code
+  h_104014ee6b2ca4 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e78b424e9c317d06dfe70012eb181fb325ee693d",
+  "prompts": {},
+  "humans": {
+    "h_104014ee6b2ca4": {
+      "author": "Pravin Narkhede <pravin.narkhede@definelabs.com>"
+    }
+  }
+}
