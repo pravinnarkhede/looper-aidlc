@@ -1,0 +1,79 @@
+﻿{
+    "hooks":  {
+                  "Stop":  [
+                               {
+                                   "matcher":  "",
+                                   "hooks":  [
+                                                 {
+                                                     "type":  "command",
+                                                     "command":  "powershell -NonInteractive -File \"D:\\bridge-workspace\\looper-code\\hooks\\looper-session-hook.ps1\""
+                                                 }
+                                             ]
+                               }
+                           ]
+              },
+    "permissions":  {
+                        "allow":  [
+                                      "Bash(git *)",
+                                      "Bash(cd * \u0026\u0026 git *)",
+                                      "Bash(git log*)",
+                                      "Bash(git diff*)",
+                                      "Bash(git show*)",
+                                      "Bash(git blame*)",
+                                      "Bash(git status*)",
+                                      "Bash(ls*)",
+                                      "Bash(cd *)",
+                                      "PowerShell(*)"
+                                  ],
+                        "deny":  [
+                                     "Bash(git push --force*)",
+                                     "Bash(git push -f *)",
+                                     "Bash(git push -f)",
+                                     "Bash(git push --force-with-lease*)",
+                                     "Bash(git push --mirror*)",
+                                     "Bash(git push --delete*)",
+                                     "Bash(git push origin --delete*)",
+                                     "Bash(git push origin :*)",
+                                     "Bash(git reset --hard*)",
+                                     "Bash(git clean -f*)",
+                                     "Bash(git branch -D*)",
+                                     "Bash(git config --global*)",
+                                     "PowerShell(Remove-Item*)",
+                                     "PowerShell(Stop-Process*)",
+                                     "PowerShell(kill *)",
+                                     "PowerShell(Invoke-Expression*)",
+                                     "PowerShell(iex *)",
+                                     "PowerShell(Set-ExecutionPolicy*)",
+                                     "PowerShell(Format-Volume*)",
+                                     "PowerShell(Clear-Disk*)",
+                                     "PowerShell(Initialize-Disk*)",
+                                     "PowerShell(Remove-Partition*)",
+                                     "PowerShell(Uninstall-Package*)",
+                                     "PowerShell(Uninstall-Module*)"
+                                 ],
+                        "ask":  [
+                                    "Bash(git rebase*)",
+                                    "Bash(git branch -d *)",
+                                    "Bash(git remote remove*)",
+                                    "Bash(git remote rm*)",
+                                    "Bash(git stash drop*)",
+                                    "Bash(git stash clear*)",
+                                    "Bash(git tag -d*)",
+                                    "PowerShell(Start-Process*)",
+                                    "PowerShell(New-Item*)",
+                                    "PowerShell(Set-Content*)",
+                                    "PowerShell(Out-File*)",
+                                    "PowerShell(Add-Content*)",
+                                    "PowerShell(Move-Item*)",
+                                    "PowerShell(Rename-Item*)",
+                                    "PowerShell(Copy-Item*)",
+                                    "PowerShell(Install-Package*)",
+                                    "PowerShell(Install-Module*)",
+                                    "PowerShell(Set-ItemProperty*)",
+                                    "PowerShell(Clear-Content*)",
+                                    "PowerShell(Stop-Service*)",
+                                    "PowerShell(Start-Service*)",
+                                    "PowerShell(Register-ScheduledTask*)"
+                                ]
+                    }
+}
