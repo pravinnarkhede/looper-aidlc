@@ -1,0 +1,36 @@
+.gitignore
+  s_352aee762c5aa3::t_ab55a7a3e97bcc 1-2
+CLAUDE.md
+  s_352aee762c5aa3::t_c26246a00fa90e 181
+  s_352aee762c5aa3::t_7ea0426caa869f 333
+  s_352aee762c5aa3::t_302a629a185d76 334
+  s_352aee762c5aa3::t_b72ae04b56e15c 175-180,182-190
+  s_352aee762c5aa3::t_527ba01fab627e 271
+  s_352aee762c5aa3::t_dafb455877a475 431
+  s_352aee762c5aa3::t_6a4f51e0ab8a70 513-517
+  s_352aee762c5aa3::t_a9a28ef3c3205a 430
+.claude/agents/knowledge-base-builder.md
+  s_352aee762c5aa3::t_59b7eaf4c5d006 3-4
+  s_352aee762c5aa3::t_2f8f957aa64f6c 15
+  s_352aee762c5aa3::t_c72f041f8970ab 55-57,60-72
+  s_352aee762c5aa3::t_03fa7715d79c91 1-2,5-14,16-54,58-59,73-106
+.claude/commands/knowledge-base-update.md
+  s_352aee762c5aa3::t_5b44d447a368d6 22
+  s_352aee762c5aa3::t_01047034a69cc4 1-21,23-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b6a694f510a2fc07e2682991e30d96bc00faee0c",
+  "prompts": {},
+  "sessions": {
+    "s_352aee762c5aa3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ae6443b7-e511-4b56-b0ee-9c0c46340179",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Pravin Narkhede <pravin.narkhede@definelabs.com>"
+    }
+  }
+}
