@@ -1,0 +1,111 @@
+.claude/agents/build-checker.md
+  s_352aee762c5aa3::t_74c3790cac718c 22-24
+.claude/hooks/knowledge-base-reminder-hook.ps1
+  s_352aee762c5aa3::t_379359851d35a9 1-34
+.claude/commands/looper-initialize.md
+  s_352aee762c5aa3::t_0b31936b9f4b36 182,187-191
+  s_352aee762c5aa3::t_1c1a95263d5c1b 178-181,183-186,192
+  s_352aee762c5aa3::t_08d97c1e8a8683 5
+aidlc-docs/reverse-engineering/reverse-engineering-timestamp.md
+  s_352aee762c5aa3::t_4d4f60fb64c01a 5
+README.md
+  s_352aee762c5aa3::t_7e16aa59e7b746 33-34
+  s_352aee762c5aa3::t_3490dba13251c3 56-57,63-120
+  s_352aee762c5aa3::t_b451408c0ca9bc 1-22,24-32,35-55,58-62
+  s_352aee762c5aa3::t_3f011a741e6970 23
+.claude/commands/aidlc.md
+  s_352aee762c5aa3::t_c479a0379d1a17 1-26
+.claude/commands/looper-setup.md
+  s_352aee762c5aa3::t_d27cdbdb958529 5
+CLAUDE.md
+  s_352aee762c5aa3::t_ed3f44981c8333 467,472-473,482,484-485
+  s_352aee762c5aa3::t_9de6dfbdd3e94e 21
+  s_352aee762c5aa3::t_a9c0b6d9b8ad73 59
+  s_352aee762c5aa3::t_027bd3675c217c 43-48
+  s_352aee762c5aa3::t_2722ad6be14d3c 376-377
+  s_352aee762c5aa3::t_27498a9fd32b87 483
+  s_352aee762c5aa3::t_76090e8305f5fe 523-531
+  s_352aee762c5aa3::t_3a001d5482ead4 320,323-324
+  s_352aee762c5aa3::t_e97cccca7c2647 135
+  s_352aee762c5aa3::t_59d1a068c1c69a 301-305
+  s_352aee762c5aa3::t_4d68b697555016 89-90
+  s_352aee762c5aa3::t_966b3ff74d675f 75-80
+  s_352aee762c5aa3::t_804e7e0a29c313 163-167
+  s_352aee762c5aa3::t_12802610d7e494 94
+  s_352aee762c5aa3::t_41becfc7c18a89 402
+  s_352aee762c5aa3::t_aef55f87d76448 69,71
+  s_352aee762c5aa3::t_bf72c275c80ced 363-366
+  s_352aee762c5aa3::t_4685f3d98fcdec 318-319,328-329
+  s_352aee762c5aa3::t_dc0c47af48d9b5 81
+  s_352aee762c5aa3::t_1b2def4b23e5db 401
+.claude/settings.json
+  s_352aee762c5aa3::t_04017b4f7d4836 9-20
+.claude/commands/looper-plan.md
+  s_352aee762c5aa3::t_a92c446f0a7724 725
+  s_352aee762c5aa3::t_ef1acbc0b1fcae 5
+.claude/commands/looper-artifacts-setup.md
+  s_352aee762c5aa3::t_92c4e5bdad04b0 5
+  s_352aee762c5aa3::t_6dc8ad63daeb89 25
+aidlc-docs/tax-inclusive-inventory/aidlc-state.md
+  s_352aee762c5aa3::t_309de418525e82 17
+  s_352aee762c5aa3::t_e390ffdcdb3ed8 70
+.claude/commands/looper-implement.md
+  s_352aee762c5aa3::t_e39bba8ad5286c 5
+HOW-TO-USE.md
+  s_352aee762c5aa3::t_dd036f3c1c73b1 369-371,380
+  s_352aee762c5aa3::t_833899c612cb46 384-386,388
+  s_352aee762c5aa3::t_8fb5523c5df7f4 134-135
+  s_352aee762c5aa3::t_d0a45b09a3e9d6 197,201-202
+  s_352aee762c5aa3::t_36cd28a29ba8ef 321,327
+  s_352aee762c5aa3::t_f0f88434656634 217-218
+  s_352aee762c5aa3::t_a3afb33c08a64e 361
+  s_352aee762c5aa3::t_afee16ebd27615 378
+  s_352aee762c5aa3::t_dc56cb0027fe4d 328
+  s_352aee762c5aa3::t_4cc3a1e5834c56 379
+  s_352aee762c5aa3::t_c9f53c23f7b843 381-383
+bridge-docs/bridge-config.md
+  s_352aee762c5aa3::t_12a0794fead51c 79
+bridge-docs/bridge-overrides/workspace-repos.md
+  s_352aee762c5aa3::t_71c9d86d040e3c 32-33
+SETUP.md
+  s_352aee762c5aa3::t_dd13f046abeb22 26
+  s_352aee762c5aa3::t_d034634f06bce3 121
+.claude/commands/bridge-jira-sync.md
+  s_352aee762c5aa3::t_5cca02f74802bb 9
+.claude/agents/knowledge-base-builder.md
+  s_352aee762c5aa3::t_11499c9f5a70d4 11
+  s_352aee762c5aa3::t_ec95f92b41fc41 80-81
+  s_352aee762c5aa3::t_2f6738d5defa5e 105-120
+  s_352aee762c5aa3::t_0fdd607a71def7 17,20-22
+  s_352aee762c5aa3::t_ce10c678d475dc 72-76
+  s_24387a0823a7b2::t_5b2efca3cb5594 12,23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6bdc0dc0693e8cb57a533c397cf3a40e5aa12436",
+  "prompts": {},
+  "humans": {
+    "h_104014ee6b2ca4": {
+      "author": "Pravin Narkhede <pravin.narkhede@definelabs.com>"
+    }
+  },
+  "sessions": {
+    "s_24387a0823a7b2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "967cfa51-a7c3-4e04-919f-b2aadbf7d91e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Pravin Narkhede <pravin.narkhede@definelabs.com>"
+    },
+    "s_352aee762c5aa3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ae6443b7-e511-4b56-b0ee-9c0c46340179",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Pravin Narkhede <pravin.narkhede@definelabs.com>"
+    }
+  }
+}
