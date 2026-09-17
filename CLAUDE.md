@@ -172,6 +172,22 @@ At the start of every new workflow, display the welcome message from `.aidlc-rul
 - NEVER overwrite audit.md — always append/edit
 - Also log Construction phase completions in `{FEATURE_ROOT}\audit.md` under `## Construction — [Unit Name]` (append `(Looper)` if Looper was used for that unit)
 
+## MANDATORY: Knowledge Base
+
+**Purpose**: Build a shared, cross-feature knowledge base capturing durable business logic, flows, and domain knowledge — so future work (and, eventually, a RAG system built on top of it) can quickly understand how the system works, without re-reading every feature's inception docs.
+
+**Location** (shared across all features, like `aidlc-docs\reverse-engineering\`): `aidlc-docs\knowledge-base\`
+
+**Owner**: the `knowledge-base-builder` agent (`.claude\agents\knowledge-base-builder.md`). It reads AIDLC/Looper artifacts, extracts the *meaning* (not raw copies), and merges it into Markdown files with frontmatter under `aidlc-docs\knowledge-base\` (`index.md`, `business-logic\{domain}.md`, `flows\{flow-name}.md`, `decisions\{feature-name}.md`). For Construction/Looper triggers it also reads the read-only `git diff` of that unit's/phase's commits in the changed repos, since business logic sometimes lands in code without the plan doc being updated.
+
+**Automatic triggers** — invoke the `knowledge-base-builder` agent:
+- After every approved Inception stage (same point where `aidlc-docs\{feature-name}\` is published — see [Plan Publishing](#mandatory-plan-publishing-shared-repos))
+- After every Construction unit-status change (Path A) or Looper phase completion (Path B) — same point where `bridge-docs\bridge-config.md` is updated
+
+**On-demand**: `/knowledge-base-update` — full or partial backfill, safe to re-run (merges, never duplicates).
+
+**Never**: write application code, touch `aidlc-docs\reverse-engineering\`, or modify any `aidlc-docs\{feature-name}\` / `RePIT-AIDLC-*` content — the agent only reads those and writes to `aidlc-docs\knowledge-base\`.
+
 ---
 
 # INCEPTION PHASE (AIDLC-Governed)
@@ -252,7 +268,7 @@ Load and execute `inception\units-generation.md`.
 Output: `{FEATURE_ROOT}\inception\units-generation\`
 **Wait for explicit approval before proceeding.**
 
-**After every Inception stage approval**: publish `aidlc-docs\{feature-name}\` per [Plan Publishing](#mandatory-plan-publishing-shared-repos).
+**After every Inception stage approval**: publish `aidlc-docs\{feature-name}\` per [Plan Publishing](#mandatory-plan-publishing-shared-repos), and invoke the `knowledge-base-builder` agent per [Knowledge Base](#mandatory-knowledge-base).
 
 **Inception → Construction trigger**: When the user approves the final Inception stage output, the Construction phase begins.
 
@@ -313,6 +329,8 @@ Load and execute `construction\code-generation.md`.
 - Part 2 (Generation): execute the plan step by step, marking [x] after each step
 Output: Application code inside `{bridge-workspace-root}\AIDLC-{feature-name}\` (repos cloned during Repo Setup); docs at `{FEATURE_ROOT}\construction\{unit-name}\code\`
 **Wait for explicit approval before proceeding.**
+
+**After each unit's Code Generation completes and `bridge-docs\bridge-config.md` unit status is updated**: invoke the `knowledge-base-builder` agent per [Knowledge Base](#mandatory-knowledge-base), pointing it at the unit's docs **and** the git diff of that unit's commits in each repo changed under `{bridge-workspace-root}\AIDLC-{feature-name}\{repo}\`.
 
 ### Build & Test (ALWAYS — after all units)
 Load and execute `construction\build-and-test.md`.
@@ -409,6 +427,8 @@ After the user approves the RePIT, run `/looper-implement`.
 Looper executes phase by phase — one AIDLC unit per phase.
 Each phase ends with commit + push for all repos changed in that phase.
 
+**After each phase completes**: invoke the `knowledge-base-builder` agent per [Knowledge Base](#mandatory-knowledge-base), pointing it at that phase's section of the RePIT **and** the git diff of that phase's commits in each repo changed under `RePIT-AIDLC-{feature-name}-E1\{repo}\` — code changes often carry business logic the RePIT text doesn't capture.
+
 ### Step 6 — After all phases complete
 
 - Update `bridge-docs\bridge-config.md`: `In Progress` → `Complete` (include all branch names)
@@ -490,6 +510,11 @@ Currently a placeholder for future deployment and monitoring workflows.
 │
 ├── aidlc-docs\
 │   ├── reverse-engineering\          ← SHARED — one-time per codebase, not per feature
+│   ├── knowledge-base\               ← SHARED — cross-feature, built by knowledge-base-builder agent
+│   │   ├── index.md
+│   │   ├── business-logic\
+│   │   ├── flows\
+│   │   └── decisions\
 │   │
 │   ├── {feature-name-1}\             ← Feature 1 (all docs scoped here)
 │   │   ├── inception\
