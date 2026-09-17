@@ -2,7 +2,7 @@
 
 ## Banner
 
-Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../artifacts/looper-code-banner.md).
+Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../../looper-code/artifacts/looper-code-banner.md).
 
 ## Goal
 
@@ -174,6 +174,21 @@ cp "$LOOPER_SRC/agents/jira-repit-updater.md"      "$WORKSPACE_DIR/agents/jira-r
 
 # Copy hook
 cp "$LOOPER_SRC/hooks/looper-session-hook.ps1" "$WORKSPACE_DIR/hooks/looper-session-hook.ps1"
+
+# Fix relative links that only resolve correctly from looper-code/commands/, not from
+# the copied location .claude/commands/ (one directory level further from looper-code/artifacts/).
+# Without this, every copied command's banner link (and looper-plan.md's RePIT-TEMPLATE.md link)
+# silently breaks each time this copy step runs.
+# bash/Git Bash:
+for f in "$WORKSPACE_DIR/commands/looper-plan.md" "$WORKSPACE_DIR/commands/looper-implement.md" \
+         "$WORKSPACE_DIR/commands/looper-initialize.md" "$WORKSPACE_DIR/commands/looper-setup.md"; do
+    sed -i 's#(\.\./artifacts/#(../../looper-code/artifacts/#g' "$f"
+done
+# native PowerShell (no sed) — equivalent fix:
+#   foreach ($f in @("looper-plan.md","looper-implement.md","looper-initialize.md","looper-setup.md")) {
+#       $p = "$WORKSPACE_DIR\commands\$f"
+#       (Get-Content $p -Raw) -replace '\(\.\./artifacts/', '(../../looper-code/artifacts/' | Set-Content $p -NoNewline
+#   }
 
 # Write the installed version
 echo "$SOURCE_VERSION" > "$WORKSPACE_DIR/looper-version"

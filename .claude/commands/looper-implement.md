@@ -2,7 +2,7 @@
 
 ## Banner
 
-Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../artifacts/looper-code-banner.md).
+Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../../looper-code/artifacts/looper-code-banner.md).
 
 ## Goal
 

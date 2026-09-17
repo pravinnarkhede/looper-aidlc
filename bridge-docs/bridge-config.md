@@ -76,7 +76,7 @@ FEATURE BLOCK TEMPLATE — copy this for each new feature:
 | **Created** | {date} |
 | **Description** | {one-line description} |
 | **AIDLC Docs Path** | `aidlc-docs\{feature-name}\` |
-| **AIDLC Status** | Inception In Progress / Inception Complete / Construction In Progress / Complete |
+| **AIDLC Status** | Inception In Progress / Inception Complete / Construction In Progress / Testing / Complete |
 | **Last Active** | {date} |
 
 #### AIDLC Inception Progress

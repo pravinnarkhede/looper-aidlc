@@ -18,7 +18,7 @@ This workspace integrates two AI-assisted development systems:
 ### AIDLC Rule Details
 Load AIDLC rules from: `.aidlc-rule-details\` (local to this workspace — all rule files are bundled here)
 
-All references in this file to `inception\`, `construction\`, `common\`, `operations\` are relative to `.aidlc-rule-details\`.
+All references in this file to `inception\`, `construction\`, `common\`, `operations\`, and `extensions\` are relative to `.aidlc-rule-details\` — except where a path is written out in full (e.g. the Extensions Loading table below uses fully-qualified paths deliberately, to avoid exactly this kind of ambiguity).
 
 ### Bridge Extensions
 Bridge-specific extensions live at: `.aidlc-rule-details\extensions\`
@@ -40,6 +40,12 @@ The Looper session hook is pre-wired in `.claude\settings.json` pointing to `loo
 `bridge-docs\bridge-config.md` — tracks all features and their AIDLC + Looper progress.
 Update this file whenever a feature is created or its unit status changes.
 
+### Workspace Root Resolution (never hardcode it)
+`{bridge-workspace-root}` throughout this file means **wherever this workspace actually is right now**, re-derived fresh every session — never a value copied from a previous session, a state file, or another machine. Concretely:
+- **Never write an absolute path containing the workspace root** into `aidlc-state.md`, `audit.md`, `bridge-docs\bridge-config.md`, or any hook/settings file — the workspace can be relocated, renamed, or cloned onto a different machine/drive at any time, and a stored absolute path silently goes stale the moment that happens (nothing errors — it just points at the wrong place). Record paths **relative to the workspace root** (e.g. `RePIT-AIDLC-{feature-name}-E1\`, not `D:\bridge-workspace\RePIT-AIDLC-{feature-name}-E1\`).
+- **On resume, if an existing state file contains an absolute path**, treat it as informational only — never navigate to it or assume it still exists. Re-resolve every path relative to the current session's actual working directory instead.
+- This applies to configuration too: if `.claude\settings.json`'s hook commands ever contain an absolute path, verify it still matches the current workspace root before trusting it — don't assume a previously-working hook still fires correctly after a workspace move.
+
 ---
 
 ## MANDATORY: Plan Publishing (Shared Repos)
@@ -50,6 +56,7 @@ Update this file whenever a feature is created or its unit status changes.
 | Content | Shared repo | Branch | Path inside repo |
 |---|---|---|---|
 | AIDLC docs | `git@bitbucket.org:definelabs/aidlc-docs.git` | `aidlc-docs/{feature-name}` | `{feature-name}\` (same layout as `aidlc-docs\{feature-name}\`) |
+| Knowledge base (shared, cross-feature) | `git@bitbucket.org:definelabs/aidlc-docs.git` (same repo as AIDLC docs, separate branch) | `aidlc-docs/knowledge-base` | `knowledge-base\` (same layout as `aidlc-docs\knowledge-base\`) |
 | RePIT plan | `git@bitbucket.org:definelabs/looper-code.git` (already cloned at `looper-code\`) | `repits/{repit-folder-name}` | `repits\{repit-folder-name}\` |
 
 `{repit-folder-name}` is the exact task-workspace folder name (e.g. `RePIT-AIDLC-{feature-name}-E1` for Path B, or the RePIT name Looper generated directly). Using the identical folder name in both places means the same folder that lives at the workspace root also exists inside the shared repo — no renaming, no translation.
@@ -59,12 +66,19 @@ Update this file whenever a feature is created or its unit status changes.
 
 **When to publish:**
 - **AIDLC**: after every Inception stage is approved, and after every Construction unit-status change in `bridge-docs\bridge-config.md` — commit `aidlc-docs\{feature-name}\` on branch `aidlc-docs/{feature-name}` and push.
+- **Knowledge base**: after every run of the `knowledge-base-builder` agent (see [Knowledge Base](#mandatory-knowledge-base)) — commit `aidlc-docs\knowledge-base\` on branch `aidlc-docs/knowledge-base` and push. This is what makes the knowledge base actually useful to teammates on another machine, not just local to whoever's session built it.
 - **RePIT (Path B / Looper)**: after `/looper-plan` creates or updates the RePIT, and after each phase completes in `/looper-implement` — copy/update `{repit-folder-name}\{repit-folder-name}.md` into `looper-code\repits\{repit-folder-name}\`, commit on branch `repits/{repit-folder-name}`, and push.
-- **Never** push the cloned project repos (`golfler_asp_2`, `sgs-cts-angular`, etc.) as part of either of the above — they are excluded (`.gitignore` them inside `looper-code\repits\{repit-folder-name}\` if ever cloned there by mistake).
+- **Never** push the cloned project repos (`golfler_asp_2`, `sgs-cts-angular`, etc.) as part of any of the above — they are excluded (`.gitignore` them inside `looper-code\repits\{repit-folder-name}\` if ever cloned there by mistake).
 
 **Pushing is a shared-system action** — confirm with the user before the first push of a new branch, per the risky-actions guidance. Routine same-branch pushes for an already-confirmed feature don't need to be re-confirmed every time unless the user asks otherwise.
 
-**To resume on another machine**: pull the relevant branch (`aidlc-docs/{feature-name}` from `aidlc-docs`, and/or `repits/{repit-folder-name}` from `looper-code`), place the folder at the workspace root under its original name, then re-clone the project repos listed in `construction\repo-setup.md` (Path A) or the RePIT's repo list (Path B) as siblings — same as Repo Setup / Step 1 of the Bridge Handoff Protocol describe for a fresh run.
+**`aidlc-docs/knowledge-base` is contended — every feature/session pushes to it, unlike the per-feature branches.** Before pushing to it:
+1. `git fetch origin aidlc-docs/knowledge-base` then `git merge origin/aidlc-docs/knowledge-base` (or rebase) before pushing your own commit — never push straight without syncing first.
+2. If the merge/rebase produces a conflict, resolve it by combining both sides' content (this branch only ever gains Markdown sections — a conflict almost always means two sessions added different sections to the same file, which is a textual merge, not a real conflict of intent). Never resolve by discarding one side.
+3. **Never force-push this branch** (the workspace's `.claude\settings.json` permission deny-list already blocks `git push --force*`/`-f` workspace-wide as a backstop, but treat it as a hard rule regardless).
+4. If push still fails after one retry (network issue, auth issue, remote down): don't block the session on it. Tell the user the knowledge base update is saved locally at `aidlc-docs\knowledge-base\` but not yet pushed, and that `/knowledge-base-update` (or a plain retry) can re-attempt the push later — then continue the workflow.
+
+**To resume on another machine**: pull the relevant branches (`aidlc-docs/{feature-name}` from `aidlc-docs`, `aidlc-docs/knowledge-base` from the same repo, and/or `repits/{repit-folder-name}` from `looper-code`), place each folder at the workspace root under its original name (`aidlc-docs\{feature-name}\`, `aidlc-docs\knowledge-base\`), then re-clone the project repos listed in `construction\repo-setup.md` (Path A) or the RePIT's repo list (Path B) as siblings — same as Repo Setup / Step 1 of the Bridge Handoff Protocol describe for a fresh run.
 
 ---
 
@@ -72,10 +86,12 @@ Update this file whenever a feature is created or its unit status changes.
 
 **Every AIDLC session is scoped to one feature.** All documentation for a feature is saved under `aidlc-docs\{feature-name}\`. This keeps multiple features isolated from each other in the same workspace.
 
+This whole section runs automatically the moment the user describes a feature or pastes a ticket ID in a new chat — no command is required. `/aidlc` (`.claude\commands\aidlc.md`) is an optional, explicit entry point into the same steps below, for when the user wants a guaranteed trigger instead of relying on a plain-English message (mirrors why `/looper-plan` exists alongside "just describe the task").
+
 ### On Session Start — Determine the Active Feature
 
 **Step 1: Scan for existing features**
-List all subdirectories under `aidlc-docs\` (each subdirectory is one feature). Exclude `reverse-engineering\` — that is shared across all features.
+List all subdirectories under `aidlc-docs\` (each subdirectory is one feature). Exclude `reverse-engineering\` and `knowledge-base\` — those are shared across all features, not features themselves.
 
 **Step 2a: Existing features found**
 Present the list:
@@ -116,7 +132,7 @@ All AIDLC documentation for this session is rooted at:
 ```
 FEATURE_ROOT = aidlc-docs\{feature-name}\
 ```
-Every path in this file that begins with `aidlc-docs\` (except `aidlc-docs\reverse-engineering\`) uses `FEATURE_ROOT` as its base.
+Every path in this file that begins with `aidlc-docs\` (except `aidlc-docs\reverse-engineering\` and `aidlc-docs\knowledge-base\`, both shared across all features) uses `FEATURE_ROOT` as its base. **This substitution also applies inside any `.aidlc-rule-details\*.md` rule file loaded via "Load and execute"** — those vendor files predate this bridge's per-feature model and often reference bare paths like `aidlc-docs/aidlc-state.md` or `aidlc-docs/inception/requirements/requirements.md` with no feature-name scoping. Treat every such bare `aidlc-docs/...` reference inside a loaded rule file as implicitly `{FEATURE_ROOT}\...` (i.e. insert `{feature-name}\` after `aidlc-docs\`) — this file's Inception/Construction sections above always state the correctly-scoped `Output:` path for each stage; that stated output path is authoritative over whatever bare path the loaded rule file itself mentions.
 
 **Update `bridge-docs\bridge-config.md`**: add a row for the new feature, or update the last-active timestamp for a resumed feature.
 
@@ -144,9 +160,11 @@ Opt-in extensions and when they apply:
 | Extension | Opt-in file | Full rules file | When enforced |
 |-----------|-------------|-----------------|---------------|
 | Looper (Construction) | `bridge-docs\bridge-overrides\looper-opt-in.md` | `.aidlc-rule-details\extensions\looper\looper.md` | After user opts in — replaces AIDLC Code Generation |
-| Security Baseline | `extensions\security\baseline\security-baseline.opt-in.md` | `security-baseline.md` | After user opts in — all phases |
-| Property-Based Testing | `extensions\testing\property-based\property-based-testing.opt-in.md` | `property-based-testing.md` | After user opts in — Construction phase |
-| Resiliency Baseline | `extensions\resiliency\baseline\resiliency-baseline.opt-in.md` | `resiliency-baseline.md` | After user opts in — all phases (blocking rules) |
+| Security Baseline | `.aidlc-rule-details\extensions\security\baseline\security-baseline.opt-in.md` | `.aidlc-rule-details\extensions\security\baseline\security-baseline.md` | After user opts in — all phases |
+| Property-Based Testing | `.aidlc-rule-details\extensions\testing\property-based\property-based-testing.opt-in.md` | `.aidlc-rule-details\extensions\testing\property-based\property-based-testing.md` | After user opts in — Construction phase |
+| Resiliency Baseline | `.aidlc-rule-details\extensions\resiliency\baseline\resiliency-baseline.opt-in.md` | `.aidlc-rule-details\extensions\resiliency\baseline\resiliency-baseline.md` | After user opts in — all phases (blocking rules) |
+
+All paths above are given in full — do not treat them as relative to any other path mentioned nearby (e.g. they are **not** relative to "Scan extensions from `.aidlc-rule-details\extensions\`" above; that line only names the directory to scan, not a base to resolve these against).
 
 Enforcement applies only to the applicable phase or stage for each extension.
 
@@ -280,6 +298,11 @@ Output: `{FEATURE_ROOT}\inception\units-generation\`
 **Default Owner**: AIDLC rules (Path A below)
 **Optional**: If Looper was opted in during Requirements Analysis, use Path B (Bridge Handoff Protocol) instead of Path A Code Generation.
 
+**Switching path mid-feature (rare, requires explicit user confirmation)**: "Never mix mid-feature" means don't run units on both paths simultaneously — it doesn't mean the choice is unfixable if a unit turns out bigger or riskier than expected. If the user wants to switch:
+- **Path A → Path B, mid-feature**: any unit not yet started (or whose Code Generation hasn't been approved) can move to Looper. Do Bridge Handoff Protocol Step 1 for the whole feature if it hasn't run yet, then map only the *not-yet-built* units to RePIT phases (already-completed Path A units stay as-is, recorded in `bridge-docs\bridge-config.md` as built via Path A — don't redo them under Looper).
+- **Path B → Path A, mid-feature**: any RePIT phase not yet started can instead run as an AIDLC Path A unit (Repo Setup → Code Generation). Already-completed Looper phases stay as-is.
+- Either direction: confirm with the user first (this changes how remaining work gets built), then update `bridge-docs\bridge-config.md`'s unit-to-phase mapping to reflect which units are on which path from that point forward.
+
 ---
 
 ## Path A — AIDLC Native Construction (Default)
@@ -292,16 +315,18 @@ Execute when Looper is **not** opted in. Run the applicable AIDLC Construction s
 2. **Determine the clone target folder**: `{bridge-workspace-root}\AIDLC-{feature-name}\` — one dedicated folder for the whole feature, sibling to the workspace root, created the first time Path A construction runs for this feature (not re-created per unit).
 3. **Resolve each repo's source**, in order:
    a. Already cloned somewhere under the workspace root → use directly, do not re-clone
-   b. Otherwise, clone fresh into `AIDLC-{feature-name}\{repo-name}\` — from the stable mirror's remote/origin if `looper-code-artifacts\stable-codebase\` exists (never clone or copy the mirror's working files directly — it is read-only, [see stable mirror rule]), otherwise from the repo's configured remote
-4. Present the resolved repo list before cloning:
+   b. Otherwise, will be cloned fresh into `AIDLC-{feature-name}\{repo-name}\` — from the stable mirror's remote/origin if `looper-code-artifacts\stable-codebase\` exists (never clone or copy the mirror's working files directly — it is read-only, [see stable mirror rule]), otherwise from the repo's configured remote
+4. **Look up each repo's Release Branch** in `looper-code\artifacts\project-structure.md`'s `## Repository Overview` table (`Release Branch` column — e.g. `golfler_asp_2` → `release_5_7`), so it can be shown in the confirmation prompt below. If a repo isn't listed in that table at all (a new repo not yet onboarded), stop and ask the user which branch to base work on rather than guessing the default.
+5. Present the resolved repo list before cloning:
    ```
    Repos needed for {feature-name}:
-     [1] golfler_asp_2      → AIDLC-{feature-name}\golfler_asp_2\
-     [2] sgs-cts-angular    → AIDLC-{feature-name}\sgs-cts-angular\
+     [1] golfler_asp_2      → AIDLC-{feature-name}\golfler_asp_2\ (base: release_5_7)
+     [2] sgs-cts-angular    → AIDLC-{feature-name}\sgs-cts-angular\ (base: release_v1_3)
 
    Confirm? (yes / adjust)
    ```
-5. All subsequent Code Generation steps for this feature operate inside `AIDLC-{feature-name}\`, not the bare workspace root.
+6. Once confirmed, clone each repo per step 3 and **immediately `git checkout {release-branch}`** (the branch found in step 4) before any feature branch is created off it. A plain clone lands on the repo's default branch (often `master`/`main`), which is **not** the stable base to build on — this is the same branch `/looper-artifacts-setup` already uses for the read-only stable mirror.
+7. All subsequent Code Generation steps for this feature operate inside `AIDLC-{feature-name}\`, not the bare workspace root.
 
 Output: repos cloned at `{bridge-workspace-root}\AIDLC-{feature-name}\`; a short record of what was cloned/reused at `{FEATURE_ROOT}\construction\repo-setup.md`.
 
@@ -335,6 +360,10 @@ Output: Application code inside `{bridge-workspace-root}\AIDLC-{feature-name}\` 
 ### Build & Test (ALWAYS — after all units)
 Load and execute `construction\build-and-test.md`.
 Generate cross-unit integration test instructions.
+Once all units' Code Generation is done, set `bridge-docs\bridge-config.md`'s **AIDLC Status** to `Testing` (not `Complete` yet).
+**Before marking Build & Test complete**: invoke the `build-checker` agent (`.claude\agents\build-checker.md`) against `{bridge-workspace-root}\AIDLC-{feature-name}\` to confirm every affected repo actually compiles. Include its pass/fail report in the Build & Test output.
+- If `build-checker` reports all present repos ✅ PASS: update **AIDLC Status** `Testing` → `Complete`.
+- If it reports any ❌ FAIL: keep **AIDLC Status** at `Testing`, surface the failing repo(s) and error output to the user, and do not mark `Complete` until a re-run passes.
 Output: `{FEATURE_ROOT}\construction\build-and-test\`
 **Wait for explicit approval before proceeding.**
 
@@ -343,6 +372,8 @@ Output: `{FEATURE_ROOT}\construction\build-and-test\`
 ## Path B — Bridge Handoff Protocol (Looper opted in)
 
 Execute when Looper IS opted in. AIDLC Code Generation is replaced by Looper's RePIT process.
+
+**Opted-in extensions still apply.** "Looper replaces AIDLC Code Generation" replaces *how code gets written*, not the extension rules the user opted into during Requirements Analysis. Any extension marked "all phases" or "blocking" (e.g. Resiliency Baseline) still applies to Looper's phases — pass the relevant extension's full rules file (from [Extensions Loading](#mandatory-extensions-loading-context-optimized)) into the `/looper-plan` context alongside the AIDLC design artifacts (Step 4a), and treat its blocking rules as gating the same way `[Human]` tasks gate a RePIT phase. Do not treat opting into Looper as opting out of a previously-opted-into extension.
 
 ---
 
@@ -366,6 +397,8 @@ RePIT-AIDLC-{feature-name}-E1\
 ├── golfler_pos_2\                      ← cloned if in scope
 └── sgs-cts-angular\                    ← cloned if in scope
 ```
+
+**No extra rule needed here** — `/looper-plan` already checks out each repo's Release Branch from `looper-code\artifacts\project-structure.md` before creating Phase 1's branch (and each later phase chains off the previous phase's branch), so Path B was never affected by the Path A gap above. Noted here only so it's clear this was checked, not assumed.
 
 ### Step 2 — Map AIDLC units to RePIT phases
 
@@ -431,13 +464,13 @@ Each phase ends with commit + push for all repos changed in that phase.
 
 ### Step 6 — After all phases complete
 
-- Update `bridge-docs\bridge-config.md`: `In Progress` → `Complete` (include all branch names)
+- Update `bridge-docs\bridge-config.md`: `In Progress` → `Testing` (all phases implemented, verification pending — include all branch names). Do **not** set `Complete` yet; that happens after Step 7's build-checker pass.
 - Log to `{FEATURE_ROOT}\audit.md`:
   ```
   ## Construction — {feature-name} (Looper)
   **Timestamp**: {ISO timestamp}
-  **AI Response**: "Looper construction complete. Phases: {N}. Repos: {repo-list}. Branches: {branch-list}."
-  **Context**: Construction phase complete — all {N} units implemented.
+  **AI Response**: "Looper construction complete, entering Build & Test. Phases: {N}. Repos: {repo-list}. Branches: {branch-list}."
+  **Context**: All {N} units implemented — verifying before marking Complete.
   ---
   ```
 
@@ -446,8 +479,10 @@ Each phase ends with commit + push for all repos changed in that phase.
 After all phases complete:
 1. Load and execute `construction\build-and-test.md`
 2. Generate cross-unit integration test instructions
-3. Create files in `{FEATURE_ROOT}\construction\build-and-test\`
-4. Present completion to user
+3. Invoke the `build-checker` agent (`.claude\agents\build-checker.md`) against `{bridge-workspace-root}\RePIT-AIDLC-{feature-name}-E1\` to confirm every repo touched across all phases actually compiles
+4. Create files in `{FEATURE_ROOT}\construction\build-and-test\` (include the build-checker report)
+5. If `build-checker` reports all present repos ✅ PASS: update `bridge-docs\bridge-config.md` `Testing` → `Complete`. If it reports any ❌ FAIL: keep status at `Testing`, surface the failing repo(s) and error output to the user, and do not mark `Complete` until a re-run passes.
+6. Present completion (or the outstanding failures) to user
 
 ---
 
@@ -482,6 +517,15 @@ Currently a placeholder for future deployment and monitoring workflows.
 - **Inception owns WHAT, Construction owns HOW**: AIDLC Construction (Path A) or Looper (Path B) — never mix mid-feature
 - **AIDLC design feeds Looper research (when Looper used)**: Pass AIDLC artifacts as context to reduce looper-plan research time
 - **Bridge state stays current**: `bridge-docs\bridge-config.md` tracks all features and their phase status
+
+---
+
+# Known Constraints (acknowledged, not yet addressed)
+
+These require restructuring live shared infrastructure (the `aidlc-docs`/`looper-code` Bitbucket repos, or the per-feature clone strategy) — deliberately not changed silently here. Flag to the user before acting on either:
+
+- **Branch-per-feature in `aidlc-docs` doesn't scale for discoverability.** Every feature's docs live on their own permanently-diverging branch (`aidlc-docs/{feature-name}`) that never merges to `main`. At dozens of features, the repo's default branch shows nothing, and finding a feature's docs requires already knowing its branch name. A folder-per-feature layout on `main` (normal commits/PRs) would keep the repo browsable. The shared `aidlc-docs/knowledge-base` branch is a further mismatch — it's continuously-updated shared content riding alongside orphan per-feature branches built for a different lifecycle.
+- **Every feature does a full fresh clone of every affected repo.** `AIDLC-{feature-name}\` and `RePIT-AIDLC-{feature-name}-E1\` each get their own complete clone of e.g. `golfler_asp_2`, `golfler_pos_2`, etc. With many concurrent features this multiplies disk usage. A shared local object cache with `git worktree` per feature branch (clone once, worktree per feature) would avoid the duplication, but changes how Repo Setup / Bridge Handoff Step 1 resolve repos.
 
 ---
 

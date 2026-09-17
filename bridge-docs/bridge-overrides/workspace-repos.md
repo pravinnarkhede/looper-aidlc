@@ -29,8 +29,8 @@ Select these **5 repos** (by folder name or number from the manifest):
 
 | Folder name | Type | Reason |
 |---|---|---|
-| `cc-mobile-pos-flex` | React Native | Not cloned — mobile POS not in active scope |
-| `cc-mobile-pos-fnb` | React Native | Not cloned — mobile POS not in active scope |
+| `cc_mobile_pos` (Flex app, `release` branch) | React Native | Not cloned — mobile POS not in active scope |
+| `cc_mobile_pos` (FnB app, `fnb_step231` branch) | React Native | Not cloned — mobile POS not in active scope (same repo folder as above, different branch — see `project-structure.md`) |
 | `cc_ios` | Swift / iOS | Not in scope for this env |
 | `cc_android` | Kotlin / Android | Not in scope for this env |
 

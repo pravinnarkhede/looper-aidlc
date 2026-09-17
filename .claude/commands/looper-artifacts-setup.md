@@ -2,7 +2,7 @@
 
 ## Banner
 
-Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../artifacts/looper-code-banner.md).
+Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../../looper-code/artifacts/looper-code-banner.md).
 
 ## Goal
 
@@ -22,7 +22,7 @@ Supports **Windows**, **macOS**, and **Linux**.
 ## Single Source of Truth: `artifacts/project-structure.md`
 
 This routine does **NOT** carry its own list of repos, URLs, or branches. The
-manifest is parsed from [`looper-code/artifacts/project-structure.md`](../artifacts/project-structure.md)
+manifest is parsed from [`looper-code/artifacts/project-structure.md`](../../looper-code/artifacts/project-structure.md)
 at runtime — that file is the canonical inventory of platform repos and their
 release branches. Updating branches there is the supported way to change what
 `/looper-setup` clones; nothing in this file should be edited to reflect a branch

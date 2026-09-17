@@ -6,7 +6,18 @@
                                    "hooks":  [
                                                  {
                                                      "type":  "command",
-                                                     "command":  "powershell -NonInteractive -File \"D:\\bridge-workspace\\looper-code\\hooks\\looper-session-hook.ps1\""
+                                                     "command":  "powershell -NonInteractive -File \"E:\\looper-aidlc\\looper-code\\hooks\\looper-session-hook.ps1\""
+                                                 }
+                                             ]
+                               }
+                           ],
+                  "PostToolUse":  [
+                               {
+                                   "matcher":  "Edit|Write",
+                                   "hooks":  [
+                                                 {
+                                                     "type":  "command",
+                                                     "command":  "powershell -NonInteractive -File \"E:\\looper-aidlc\\.claude\\hooks\\knowledge-base-reminder-hook.ps1\""
                                                  }
                                              ]
                                }

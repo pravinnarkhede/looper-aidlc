@@ -19,7 +19,9 @@ You are a build verification specialist for the Golfler / ClubCaddie platform. Y
 
 ## Step 1 — Determine Workspace Root
 
-The workspace root is the **parent directory of `golfler_asp_2`**.
+**If the invoking prompt specifies a target folder** (e.g. "check builds in `AIDLC-{feature-name}\`" or "against `RePIT-AIDLC-{feature-name}-E1\`" — this is how the bridge workflow's Build & Test steps invoke you, since a workspace can have several feature clone folders at once), **use that folder directly as the workspace root** and skip auto-detection entirely. Resolve it to an absolute path if given as a relative one.
+
+**Otherwise** (no target folder given — e.g. a manual, standalone invocation), auto-detect: the workspace root is the **parent directory of `golfler_asp_2`**.
 
 Use the Bash tool to find it:
 

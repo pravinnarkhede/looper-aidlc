@@ -2,7 +2,7 @@
 
 ## Banner
 
-Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../artifacts/looper-code-banner.md).
+Before doing anything else, read and output the banner from [artifacts/looper-code-banner.md](../../looper-code/artifacts/looper-code-banner.md).
 
 ## Goal
 
@@ -722,7 +722,7 @@ Ask only the most critical questions needed to write a clear RePIT. Focus on are
 
 ## RePIT Structure
 
-The generated RePIT **must follow the structure defined in [`RePIT-TEMPLATE.md`](../artifacts/RePIT-TEMPLATE.md)** exactly — do not invent or omit sections.
+The generated RePIT **must follow the structure defined in [`RePIT-TEMPLATE.md`](../../looper-code/artifacts/RePIT-TEMPLATE.md)** exactly — do not invent or omit sections.
 
 Key sections from the template:
 - **Overview** — brief feature description

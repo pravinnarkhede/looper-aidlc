@@ -2,7 +2,7 @@
 
 **Analysis Date**: 2026-06-10T00:00:00Z  
 **Analyzer**: AIDLC Bridge Workflow — Live Codebase Scan  
-**Workspace**: d:\bridge-workspace  
+**Workspace**: d:\bridge-workspace (workspace path *at the time of this scan* — historical record only, not a live pointer; the workspace has since moved)  
 **Source**: `stable-codebase\` (live shallow clones at release branches)  
 **Repos Scanned**: 5 of 9 (golfler_asp_2, golfler_pos_2, sgs-cts-angular, cc_api_manager, cc_membership_portal)  
 **Repos Excluded**: cc_ios, cc_android, cc-mobile-pos-flex, cc-mobile-pos-fnb (not in stable-codebase for this env)  

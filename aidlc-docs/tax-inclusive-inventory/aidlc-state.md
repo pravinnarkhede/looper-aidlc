@@ -14,7 +14,7 @@
 - **Existing Code**: Yes
 - **Partial Implementation**: WPF PosApp (golfler_pos_2) COMPLETE on branch `ccd-20-tax-inclusive-invenotry-3`. golfler_asp_2 work not yet started.
 - **Reverse Engineering**: Complete — artifacts at `aidlc-docs\reverse-engineering\` (shared)
-- **Workspace Root**: d:\bridge-workspace
+- **Workspace Root**: (workspace root — resolved fresh each session, do not hardcode; was `d:\bridge-workspace` at authoring time, workspace has since moved)
 - **Task Workspace (Looper)**: `RePIT-AIDLC-tax-inclusive-inventory-E1\` (create at /looper-plan)
 
 ## Extension Configuration
@@ -67,7 +67,7 @@
 ## Bridge Handoff
 
 ### Looper Task Workspace
-- **Folder**: `d:\bridge-workspace\RePIT-AIDLC-tax-inclusive-inventory-E1\`
+- **Folder**: `{bridge-workspace-root}\RePIT-AIDLC-tax-inclusive-inventory-E1\` (workspace root resolved fresh each session — do not hardcode a drive/path here)
 - **RePIT**: `RePIT-AIDLC-tax-inclusive-inventory-E1.md`
 - **Repo to clone**: `golfler_asp_2` (Change)
 - **Reference repo**: `looper-code-artifacts\stable-codebase\golfler_pos_2\` (read-only)

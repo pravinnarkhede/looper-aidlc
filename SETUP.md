@@ -23,7 +23,7 @@ Everything is self-contained — no external dependencies required.
 
 ### Step 1 — Open this workspace in VS Code
 ```
-code d:\bridge-workspace
+code {path-to-this-workspace}
 ```
 
 ### Step 2 — (Optional) Provision the stable codebase mirror
@@ -118,4 +118,4 @@ Without an `.opt-in.md` file, it is always enforced.
 → Run `/looper-setup` and enter `y` when asked about stable codebase provisioning
 
 **Session cost not logging**
-→ Check that `.claude\settings.json` Stop hook path `D:\bridge-workspace\looper-code\hooks\looper-session-hook.ps1` is correct
+→ Check that `.claude\settings.json` Stop hook path points at `{this-workspace-root}\looper-code\hooks\looper-session-hook.ps1` — if the workspace was ever moved or renamed, this absolute path goes stale silently and needs updating by hand

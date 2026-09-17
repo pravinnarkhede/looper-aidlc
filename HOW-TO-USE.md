@@ -131,6 +131,8 @@ Just type it in chat, in plain English:
 ```
 I need to add a "forgot password" flow to the login screen.
 ```
+Or use the explicit command, same effect: `/aidlc add a "forgot password" flow to the login screen`. If you have several features going and want to pick which one to resume, just type `/aidlc` with nothing after it.
+
 If this is your first feature in this workspace, AIDLC will suggest a short name for it and confirm:
 ```
 Feature name: forgot-password
@@ -192,10 +194,12 @@ Since you chose "AIDLC builds it directly" back in Step 4, AIDLC now does two th
 AIDLC looks at the Application Design / Units Generation docs to see which repos are actually affected, then clones them into one dedicated folder for this feature:
 ```
 Repos needed for forgot-password:
-  [1] golfler_asp_2   → AIDLC-forgot-password\golfler_asp_2\
+  [1] golfler_asp_2   → AIDLC-forgot-password\golfler_asp_2\ (base: release_5_7)
 
 Confirm? (yes / adjust)
 ```
+The `base:` part is the repo's release branch (from `looper-code\artifacts\project-structure.md`) — after cloning, AIDLC checks out that branch before writing any code, so your work starts from the correct stable base rather than whatever branch the repo happens to default to.
+
 If a repo is already cloned somewhere in the workspace, AIDLC reuses it instead of cloning again. It never touches the read-only stable mirror directly.
 
 **9b. Generate the code**
@@ -209,6 +213,8 @@ There's no git branching ceremony like Looper does (no automatic branch-per-phas
 ### Step 10 — Build & Test
 
 Once all units are built, AIDLC writes out instructions for testing everything together (build steps, test steps, and an end-to-end checklist).
+
+It also runs an automatic **build check** across every repo the feature touched. The feature sits at status **"Testing"** until that passes — only then does it flip to **"Complete"**. If a repo fails to compile, you're shown which one and why, and it stays at "Testing" until a re-run passes.
 
 ## Quick summary (AIDLC only)
 
@@ -312,11 +318,13 @@ You test it, reply `done`, and it continues automatically.
 ✅ Phase 3 (receipt-and-reporting) complete
 ...                                   (however many phases the feature had)
 ```
-`bridge-docs\bridge-config.md` gets updated automatically to show **every** unit as "Complete," along with its branch name — regardless of how many units/repos were involved.
+`bridge-docs\bridge-config.md` gets updated automatically — the feature moves to status **"Testing"** (not "Complete" yet), along with every branch name, regardless of how many units/repos were involved.
 
 ### Step 13 — Build & Test
 
 AIDLC generates final instructions for testing the whole feature end-to-end, across all the repos that were touched.
+
+It also runs an automatic **build check** across every repo the feature touched, to confirm they all still compile. Only if that passes does the feature flip from **"Testing"** to **"Complete"** in `bridge-docs\bridge-config.md`. If any repo fails to build, the status stays at "Testing" and you'll be shown exactly which repo failed and why — so a feature can never be marked done while it's broken.
 
 ## Quick summary (AIDLC + Looper)
 
@@ -350,6 +358,7 @@ Describe the feature
 | `aidlc-docs\{feature}\audit.md` | Full history of everything said/decided for that feature |
 | `RePIT-{ticket}-E1\` or `RePIT-AIDLC-{feature}-E1\` | Looper's task folder — the plan document + cloned repos |
 | `AIDLC-{feature}\` | AIDLC Path A's own clone folder (no Looper) — repos identified during design, cloned here before Code Generation |
+| `aidlc-docs\knowledge-base\` | Shared, cross-feature write-up of business logic, flows, and decisions — built automatically as you work (see below) |
 
 ---
 
@@ -357,14 +366,26 @@ Describe the feature
 
 | Command | What it does |
 |---|---|
+| `/aidlc` | Show the feature picker (existing features + "start a new one") |
+| `/aidlc CCD-123` | Resume that feature if it exists, otherwise start a new one named CCD-123 |
+| `/aidlc add receipt printing` | Start a new feature from a plain description |
 | `/looper-plan CCD-123` | Research + plan a specific Jira ticket |
 | `/looper-plan` | Research + plan from a plain description |
 | `/looper-implement` | Build the current plan, phase by phase |
 | `/looper-implement CCD-123` | Resume building a specific ticket |
 | `/looper-setup` | One-time setup — clones a shared, read-only copy of all repos (do this first, before your first feature) |
 | `/bridge-jira-sync` | Push AIDLC's user stories into Jira as an Epic + Stories |
+| `/knowledge-base-update` | Manually refresh/backfill the knowledge base (normally automatic — see below) |
 
-AIDLC has **no command** — just describe what you want to build in plain English, in a new chat, and it starts automatically.
+`/aidlc` is optional — AIDLC starts automatically the moment you describe what you want to build in plain English, in a new chat, or paste a ticket ID. Use `/aidlc` when you want an explicit, guaranteed entry point instead (e.g. to force the feature picker even if you don't type a request yet).
+
+---
+
+# THE KNOWLEDGE BASE (builds itself as you work)
+
+Every time you approve an AIDLC stage, or finish a Construction unit / Looper phase, a background agent reads what just happened — the plan docs, and (for Construction/Looper) the actual code changes — and writes a short, plain-English summary of the durable business logic, flows, and decisions into `aidlc-docs\knowledge-base\`. It merges into existing files rather than piling up duplicates, so it stays a single readable reference for "how does this system actually work and why" — useful on your next ticket, and structured so it can later feed a RAG/search tool if you want one.
+
+You don't need to do anything — it runs automatically. The only time you'd run `/knowledge-base-update` yourself is to backfill a feature that was built before this existed, or to force a re-run.
 
 ---
 

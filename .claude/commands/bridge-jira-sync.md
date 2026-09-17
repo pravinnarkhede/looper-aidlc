@@ -6,7 +6,7 @@ Reads AIDLC user story output for the active feature and creates a Jira Epic wit
 
 ## Step 1 — Identify the active feature
 
-Scan `aidlc-docs\` for feature subfolders (exclude `reverse-engineering\`).
+Scan `aidlc-docs\` for feature subfolders (exclude `reverse-engineering\` and `knowledge-base\` — both shared across all features, not features themselves; same exclusion list as `CLAUDE.md`'s "MANDATORY: Feature Context").
 
 If more than one feature exists, present a numbered picker:
 
